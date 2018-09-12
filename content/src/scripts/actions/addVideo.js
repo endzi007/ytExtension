@@ -6,3 +6,11 @@ export const addOrRemoveVideo = (video)=>{
     }
 }
 
+
+export const addOrRemoveClass = (video)=>{
+    return {
+        type: "ADD_OR_REMOVE_CLASS",
+        payload: video
+    }
+}
+

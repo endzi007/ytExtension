@@ -1,5 +1,4 @@
 export const addVideo = (url)=>{
-    console.log("addVideo", url);
     return {
         type: "ADD_VIDEO",
         payload: url

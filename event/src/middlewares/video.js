@@ -13,7 +13,7 @@ export const checkVideo = (store)=>(next)=>(action)=>{
                 } else{
                     next(action);
                 }
-            }  
+            } 
             break;
         default:
             next(action);

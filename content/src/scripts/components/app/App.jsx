@@ -16,10 +16,12 @@ class App extends Component {
     this.observerFunction = this.observerFunction.bind(this);
     this.getDomNodesOnLoad = this.getDomNodesOnLoad.bind(this);
   }
+  
   addListeners(nodes){
     nodes.forEach((video)=>{
        let aTags = video.getElementsByTagName("a");
        let url = aTags[0].getAttribute("href");
+       console.log(this.props, "videos in addLlisteners");
        video.addEventListener("click", (e)=>{
          if(this.props.selectionMode==="on"){
            e.preventDefault();
@@ -71,7 +73,8 @@ class App extends Component {
 }
 function mapStateToProps(store){
     return {
-      selectionMode: store.selectionMode
+      selectionMode: store.selectionMode,
+      videos: store.videos
     }
 }
  
