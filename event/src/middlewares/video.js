@@ -15,6 +15,10 @@ export const checkVideo = (store)=>(next)=>(action)=>{
                 }
             } 
             break;
+        case "ALIAS_GENERATED_ACTION": {
+            console.log("alias in middleware");
+            break;
+        }
         default:
             next(action);
             break;

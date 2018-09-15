@@ -10,18 +10,24 @@ class App extends Component {
     super(props);
 
     this.state = {
-      tags: ["ytd-grid-video-renderer", "ytd-watch-next-secondary-results-renderer", "ytd-playlist-panel-video-renderer", "ytd-video-renderer", "ytd-compact-video-renderer"]
+      tags: [
+        "ytd-grid-video-renderer", 
+        "ytd-watch-next-secondary-results-renderer", 
+        "ytd-playlist-panel-video-renderer", 
+        "ytd-video-renderer", 
+        "ytd-compact-video-renderer"
+      ]
     };
     this.addListeners = this.addListeners.bind(this);
     this.observerFunction = this.observerFunction.bind(this);
     this.getDomNodesOnLoad = this.getDomNodesOnLoad.bind(this);
+    this.addClasses = this.addClasses.bind(this);
   }
   
   addListeners(nodes){
     nodes.forEach((video)=>{
        let aTags = video.getElementsByTagName("a");
        let url = aTags[0].getAttribute("href");
-       console.log(this.props, "videos in addLlisteners");
        video.addEventListener("click", (e)=>{
          if(this.props.selectionMode==="on"){
            e.preventDefault();
@@ -54,14 +60,24 @@ class App extends Component {
   // Start observing the target node for configured mutations
   observer.observe(document, config);
   }
-
+  addClasses(videos, nodes){
+    for (let node of nodes ){
+      let link = node.getElementsByTagName("a")[0].getAttribute("href");
+      if(videos.indexOf(link)!==-1){
+        node.classList.add("selectedVideo");
+      }
+    }
+  }
   getDomNodesOnLoad(){
-    let nodes = document.querySelectorAll("ytd-grid-video-renderer", "ytd-watch-next-secondary-results-renderer", "ytd-playlist-panel-video-renderer", "ytd-video-renderer");
+    let nodes = document.querySelectorAll(this.state.tags);
     this.addListeners(Array.from(nodes));
   }
   componentDidMount() {
     this.getDomNodesOnLoad();
     this.observerFunction();
+    this.props.getVideos().then((videos)=>{
+      this.addClasses(videos, document.querySelectorAll(this.state.tags));
+    });
   }
 
   render() {

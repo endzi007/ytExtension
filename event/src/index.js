@@ -1,17 +1,24 @@
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './reducers';
-import { wrapStore } from 'react-chrome-redux';
+import { wrapStore, alias } from 'react-chrome-redux';
 import logger from 'redux-logger';
 import { checkVideo } from './middlewares/video';
-
+import ReduxThunk from 'redux-thunk';
+import aliases from './aliases';
 const defaultState = {
     selectionMode: "neutral",
     videos: []
 }
-const store = createStore(rootReducer, defaultState, applyMiddleware(checkVideo, logger));
+
+
+const store = createStore(rootReducer, defaultState, applyMiddleware(alias(aliases), ReduxThunk, checkVideo, logger));
 store.subscribe(()=>{
     console.log(store.getState(), "store on event side");
 });
 wrapStore(store, {
     portName: "YTEC"
 })
+
+chrome.extension.onMessage.addListener((request, sender, response)=>{
+    console.log(store.getState(), "ddd");
+});

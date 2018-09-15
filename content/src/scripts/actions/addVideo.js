@@ -14,3 +14,9 @@ export const addOrRemoveClass = (video)=>{
     }
 }
 
+
+export const getVideos = ()=>{
+    return {
+        type: "GET_VIDEOS"
+    }
+}
