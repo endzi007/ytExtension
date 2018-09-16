@@ -21,37 +21,37 @@ class App extends Component {
     this.addListeners = this.addListeners.bind(this);
     this.observerFunction = this.observerFunction.bind(this);
     this.getDomNodesOnLoad = this.getDomNodesOnLoad.bind(this);
-    this.addClasses = this.addClasses.bind(this);
+    this.addOrRemoveClass = this.addOrRemoveClass.bind(this);
   }
   
-  addListeners(nodes){
-    nodes.forEach((video)=>{
-       let aTags = video.getElementsByTagName("a");
-       let url = aTags[0].getAttribute("href");
-       video.addEventListener("click", (e)=>{
-         if(this.props.selectionMode==="on"){
-           e.preventDefault();
-           e.stopPropagation();
-           this.props.addOrRemoveVideo(url);
-         }
-       }, true)
-    })
+  addListeners(video){
+      if(this.state.tags.indexOf(video.nodeName.toLowerCase()!==-1)){
+        video.addEventListener("click", (e)=>{
+          let aTags = video.getElementsByTagName("a");
+          let url = aTags[0].getAttribute("href");
+          if(this.props.selectionMode==="on"){
+            e.preventDefault();
+            e.stopPropagation();
+            this.props.addOrRemoveVideo(url);
+          }
+        }, true)
+      }      
   }
   observerFunction(){ 
   // Options for the observer (which mutations to observe)
   var config = { childList: true, subtree: true };  
   // Callback function to execute when mutations are observed
   const callback = (mutationsList)=>{
-      let newNodes = [];
       for(let mutation of mutationsList){
         let addedNodes = mutation.addedNodes; //object
+        let removedNodes = mutation.removedNodes;
         for(let key of addedNodes){
           if(this.state.tags.indexOf(key.nodeName.toLowerCase())!==-1){
-            newNodes.push(key);
+            this.addListeners(key);
+            this.addOrRemoveClass(key);
           }
         }
       }
-      this.addListeners(newNodes);
   };
   
   // Create an observer instance linked to the callback function
@@ -60,23 +60,28 @@ class App extends Component {
   // Start observing the target node for configured mutations
   observer.observe(document, config);
   }
-  addClasses(videos, nodes){
-    for (let node of nodes ){
-      let link = node.getElementsByTagName("a")[0].getAttribute("href");
-      if(videos.indexOf(link)!==-1){
-        node.classList.add("selectedVideo");
+
+  addOrRemoveClass(node){
+    let url = node.getElementsByTagName("a")[0].getAttribute("href");
+    if(this.props.videos.indexOf(url)!==-1){
+      node.classList.add("selectedVideo");
+    } else {
+      if(node.classList.contains("seletedVideo")){
+        node.classList.remove("selectedVideo");
       }
     }
   }
   getDomNodesOnLoad(){
-    let nodes = document.querySelectorAll(this.state.tags);
-    this.addListeners(Array.from(nodes));
+    let nodes = Array.from(document.querySelectorAll(this.state.tags));
+    for (let node of nodes){
+      this.addListeners(node);
+      this.addOrRemoveClass(node);
+    }
   }
   componentDidMount() {
-    this.getDomNodesOnLoad();
-    this.observerFunction();
-    this.props.getVideos().then((videos)=>{
-      this.addClasses(videos, document.querySelectorAll(this.state.tags));
+    this.props.getVideos().then(()=>{
+      this.getDomNodesOnLoad();
+      this.observerFunction();
     });
   }
 

@@ -2,6 +2,7 @@ import { addVideo, removeVideo } from '../actions/videoStoreActions';
 export const checkVideo = (store)=>(next)=>(action)=>{
     switch (action.type) {
         case "ADD_OR_REMOVE_VIDEO":
+            console.log("add or remove middleware");
             let videos = store.getState().videos;
             if(videos.indexOf(action.payload)===-1){
                 action.type = "ADD_VIDEO"

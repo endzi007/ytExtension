@@ -12,13 +12,11 @@ const defaultState = {
 
 
 const store = createStore(rootReducer, defaultState, applyMiddleware(alias(aliases), ReduxThunk, checkVideo, logger));
-store.subscribe(()=>{
-    console.log(store.getState(), "store on event side");
-});
+
 wrapStore(store, {
     portName: "YTEC"
 })
 
-chrome.extension.onMessage.addListener((request, sender, response)=>{
+/* chrome.extension.onMessage.addListener((request, sender, response)=>{
     console.log(store.getState(), "ddd");
-});
+}); */
