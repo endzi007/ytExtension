@@ -71,6 +71,14 @@ class App extends Component {
       }
     }
   }
+
+  observePageChange(){
+    chrome.runtime.onMessage.addListener(
+      (request, sender, sendResponse)=>{
+        console.log(request);
+        this.getDomNodesOnLoad();
+      });
+  }
   getDomNodesOnLoad(){
     let nodes = Array.from(document.querySelectorAll(this.state.tags));
     for (let node of nodes){
