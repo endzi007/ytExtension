@@ -11,13 +11,12 @@ const defaultState = {
     videos: []
 }
 
-chrome.webNavigation.onHistoryStateUpdated.addListener(function (data){
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, {payload: "changed"}, function(){});
+/* chrome.webNavigation.onHistoryStateUpdated.addListener(function (data){
+    chrome.tabs.query({currentWindow: true, active: true}, (tabs)=>{
+        chrome.tabs.executeScript(tabs[0].id, {file: '/content.js'});
     });
 });
-
-
+ */
 const store = createStore(rootReducer, defaultState, applyMiddleware(alias(aliases), ReduxThunk, checkVideo, logger));
 
 wrapStore(store, {

@@ -1,28 +1,4 @@
 import { addVideo, removeVideo } from '../actions/videoStoreActions';
 export const checkVideo = (store)=>(next)=>(action)=>{
-    switch (action.type) {
-        case "ADD_OR_REMOVE_VIDEO":
-            console.log("add or remove middleware");
-            let videos = store.getState().videos;
-            if(videos.indexOf(action.payload)===-1){
-                action.type = "ADD_VIDEO"
-                next(action);
-            } else {
-                if(videos.length !== 0){
-                    action.type = "REMOVE_VIDEO";
-                    next(action);
-                } else{
-                    next(action);
-                }
-            } 
-            break;
-        case "ALIAS_GENERATED_ACTION": {
-            console.log("alias in middleware");
-            break;
-        }
-        default:
-            next(action);
-            break;
-    }
-    
+    next(action);
 }

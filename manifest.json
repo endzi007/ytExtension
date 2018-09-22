@@ -21,6 +21,7 @@
     }
   ],
   "permissions": [
-    "webNavigation"
+    "webNavigation",
+    "<all_urls>"
   ]
 }

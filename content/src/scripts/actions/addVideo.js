@@ -1,19 +1,17 @@
 
-export const addOrRemoveVideo = (video)=>{
+export const removeVideo = (video)=>{
     return {
-        type: "ADD_OR_REMOVE_VIDEO",
+        type: "REMOVE_VIDEO",
         payload: video
     }
 }
 
-
-export const addOrRemoveClass = (video)=>{
+export const addVideo = (video)=>{
     return {
-        type: "ADD_OR_REMOVE_CLASS",
+        type: "ADD_VIDEO",
         payload: video
     }
 }
-
 
 export const getVideos = ()=>{
     return {
