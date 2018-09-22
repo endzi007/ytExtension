@@ -90,7 +90,7 @@ class App extends Component {
     document.getElementsByTagName("body")[0].addEventListener("yt-navigate-finish", (event)=> {
         this.props.getVideos().then(()=>{
           this.getDomNodesOnLoad();
-          //observer.observe(document, {childList: true, subtree: true});
+          observer.observe(document, {childList: true, subtree: true});
         });
     });
   }
