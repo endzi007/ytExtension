@@ -7,7 +7,7 @@ export default (state = initialState, action) => {
       newState.push(action.payload);
       break;
     case 'REMOVE_VIDEO':
-      newState.splice(newState.indexOf(action.payload), 1);
+      newState.splice(action.payload, 1);
       break;
     default:
       break;

@@ -1,14 +1,6 @@
-
-export const removeVideo = (video)=>{
+export const addRemoveVideo = (video)=>{
     return {
-        type: "REMOVE_VIDEO",
-        payload: video
-    }
-}
-
-export const addVideo = (video)=>{
-    return {
-        type: "ADD_VIDEO",
+        type: "ADD_REMOVE_VIDEO",
         payload: video
     }
 }

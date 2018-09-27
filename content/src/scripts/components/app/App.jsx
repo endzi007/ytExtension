@@ -29,18 +29,22 @@ class App extends Component {
         if(video.classList.contains("addedListener")===false){
           video.addEventListener("click", (e)=>{
             video.classList.add("addedListener");
-            let aTags = video.getElementsByTagName("a");
-            let url = aTags[0].getAttribute("href");
+            let url = video.getElementsByTagName("a")[0].getAttribute("href");
+            let thumbnailSrc = video.getElementsByTagName("img")[0].getAttribute("src");
+            let title = video.querySelector("#video-title").getAttribute("title");
+            let videoToAdd = {title: title, thumbnail: thumbnailSrc, url: url};
             if(this.props.selectionMode==="on"){
               e.preventDefault();
               e.stopPropagation();
-              if(this.props.videos.indexOf(url)!==-1){
-                this.props.removeVideo(url);
-                video.classList.remove("selectedVideo");
-              } else {
-                this.props.addVideo(url);
+              let found = this.props.videos.findIndex((vidUrl)=>{
+                return vidUrl.url === url;
+              });
+              if(found===-1){
                 video.classList.add("selectedVideo");
+              } else {
+                video.classList.remove("selectedVideo");
               }
+              this.props.addRemoveVideo(videoToAdd);
             }
           }, true)
         }
@@ -62,7 +66,10 @@ class App extends Component {
     if(node !== undefined){
       if(this.state.tags.indexOf(node.nodeName.toLowerCase()!==-1)){
           let url = node.getElementsByTagName("a")[0].getAttribute("href");
-          if(this.props.videos.indexOf(url)!==-1){
+          let found = this.props.videos.findIndex((video)=>{
+            return video.url === url;
+          });
+          if(found !==-1){
             node.classList.add("selectedVideo");
           } else {
             node.classList.remove("selectedVideo");
@@ -84,7 +91,6 @@ class App extends Component {
         observer.observe(document, {childList: true, subtree: true});
     }); 
     document.getElementsByTagName("body")[0].addEventListener("yt-navigate-start", (event)=> {
-      this.getDomNodesOnLoad(false)
       observer.disconnect();
     });
     document.getElementsByTagName("body")[0].addEventListener("yt-navigate-finish", (event)=> {
@@ -92,6 +98,9 @@ class App extends Component {
           this.getDomNodesOnLoad();
           observer.observe(document, {childList: true, subtree: true});
         });
+    });
+    chrome.extension.onMessage.addListener((message, sender, response)=>{
+      console.log(message);
     });
   }
 
