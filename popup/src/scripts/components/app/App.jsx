@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
 import Playlist from '../playlist';
 
 class App extends Component {
@@ -11,15 +10,18 @@ class App extends Component {
       this.props.dispatch({type: "SELECT_MODE", payload: value})
   }
   render() {
-    console.log(this.props.selectionMode, "selection mode");
     return (
-      <div className="container">
+      <div style={{ 
+        minWidth: "400px",
+        minHeight: "200px",
+        padding: "10px"
+        }} className="container">
         <div className="selectionMode">
         Enter selection mode: <br />
-        <Button onClick={this.handleChange.bind(this, "on")} bsStyle={this.props.selectionMode==="on"? "success": "default"}>On</Button>
-        <Button onClick={this.handleChange.bind(this, "off")} bsStyle={this.props.selectionMode!=="on"? "success": "default"}>Off</Button>
+        <button onClick={this.handleChange.bind(this, "on")} className={`btn ${this.props.selectionMode==="on"? "btn-success": "btn-default"}`}>On</button>
+        <button onClick={this.handleChange.bind(this, "off")} className={`btn ${this.props.selectionMode!=="on"? "btn-success": "btn-default"}`}>Off</button>
         </div>
-        <Playlist videos={this.props.videos}/>
+        <Playlist dispatch={this.props.dispatch} videos={this.props.videos}/>
       </div>
     );
   }
