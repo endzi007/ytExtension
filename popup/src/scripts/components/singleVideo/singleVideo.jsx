@@ -1,6 +1,14 @@
 import React from 'react';
-
-const SingleVideo = (video, dispatch)=>{
+import { connect } from 'react-redux';
+const SingleVideo = (props)=>{
+    const { video, actionDispatch } = props;
+    console.log(props);
+    const handleRemove = (type, payload)=>{
+        actionDispatch("ADD_REMOVE_VIDEO", video);
+        chrome.tabs.query({currentWindow: true, active: true}, (tabs)=>{
+            chrome.tabs.sendMessage(tabs[0].id, {payload: "REMOVED_VIDEO"});
+        })
+    }
     return (
         <div style={{
             display: "grid",
@@ -14,12 +22,11 @@ const SingleVideo = (video, dispatch)=>{
                 style={{
                     maxWidth: "100px"
                 }}
-            src={video.video.thumbnail} alt={video.video.title}/>
-            <h5>{video.video.title}</h5>
-            
+            src={video.thumbnail} alt={video.title}/>
+            <h5>{video.title}</h5>
+            <div onClick={handleRemove}>delete</div>
         </div>
     );
 };
-
 
 export default SingleVideo;

@@ -9,6 +9,9 @@ class App extends Component {
   handleChange(value){
       this.props.dispatch({type: "SELECT_MODE", payload: value})
   }
+  handleDispatch(type, payload){
+    this.props.dispatch({type: type, payload: payload})
+  }
   render() {
     return (
       <div style={{ 
@@ -21,7 +24,7 @@ class App extends Component {
         <button onClick={this.handleChange.bind(this, "on")} className={`btn ${this.props.selectionMode==="on"? "btn-success": "btn-default"}`}>On</button>
         <button onClick={this.handleChange.bind(this, "off")} className={`btn ${this.props.selectionMode!=="on"? "btn-success": "btn-default"}`}>Off</button>
         </div>
-        <Playlist dispatch={this.props.dispatch} videos={this.props.videos}/>
+        <Playlist dispatchAction={this.handleDispatch.bind(this)} videos={this.props.videos}/>
       </div>
     );
   }

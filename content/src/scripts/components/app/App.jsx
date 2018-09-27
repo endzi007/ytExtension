@@ -100,7 +100,17 @@ class App extends Component {
         });
     });
     chrome.extension.onMessage.addListener((message, sender, response)=>{
-      console.log(message);
+      switch (message.payload) {
+        case "REMOVED_VIDEO":
+          let domNodes = Array.from(document.querySelectorAll(this.state.tags));
+          for(let node of domNodes){
+            this.addClasses(node);
+          }
+          break;
+      
+        default:
+          break;
+      }
     });
   }
 
