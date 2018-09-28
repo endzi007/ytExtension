@@ -32,7 +32,7 @@ class App extends Component {
             let url = video.getElementsByTagName("a")[0].getAttribute("href");
             let thumbnailSrc = video.getElementsByTagName("img")[0].getAttribute("src");
             let title = video.querySelector("#video-title").getAttribute("title");
-            let videoToAdd = {title: title, thumbnail: thumbnailSrc, url: url};
+            let videoToAdd = {title: title, thumbnail: thumbnailSrc, url: url, links: []};
             if(this.props.selectionMode==="on"){
               e.preventDefault();
               e.stopPropagation();
@@ -107,7 +107,6 @@ class App extends Component {
             this.addClasses(node);
           }
           break;
-      
         default:
           break;
       }
