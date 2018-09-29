@@ -11,39 +11,36 @@ const SingleVideo = (props)=>{
     }
     const modifiedUrl = video.url.substr(9, video.url.length);
     console.log(modifiedUrl);
-    const handleDownload = ()=>{
-        fetch(`https://youtubetoany.com/@api/json/mp3/${modifiedUrl} HTTP/1.1`).then((response)=>{
-            console.log("[response]",response)
-            return response.json();
-        }).then((data)=>{
-            console.log(JSON.stringify(data));
-        });
+
+    const handleDownload = ()=> {
+        fetch(`https://api.youtubemultidownloader.com/video?url=https://www.youtube.com/watch?v=${modifiedUrl}`).then((response)=>{
+                return response.json()
+            }).then((data)=>{
+                console.log(JSON.stringify(data));
+            });
     }
-    
-    const downloadLinks = video.links.forEach(link => {
-        return <div>{link}</div>
-    });
     return (
         <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 3fr",
-            gridGap: "7px",
+            display: "flex",
             width: "100%",
             padding: "5px",
-            borderBottom: "1px solid gray"
+            flexDirection: "column"
         }}>
-            <img 
-                style={{
-                    maxWidth: "100px"
-                }}
-
-            src={video.thumbnail} alt={video.title}/>
-            <h5>{video.title}</h5>
-            <div onClick={handleRemove}>delete</div>
-            <div onClick={handleDownload}>download</div>
-            <div style={{maxWidth: "100%"}}>
-            <iframe width="250px" height="60px" scrolling="no" src={`https://www.download-mp3-youtube.com/api/?api_key=MzE4ODAxNDcz&format=mp3&video_id=${modifiedUrl}`}></iframe>
+        <h5>{video.title}</h5>
+        <div style={{
+            display: "grid",
+            gridTemplateColumns: "2fr 3fr"
+        }}>
+            <img style={{maxWidth: "100px"}}src={video.thumbnail} alt={video.title}/>
+            <div style={{display: "flex", alignItems: "center", padding: "5px"}}>
+                <div style={{maxWidth: "100%"}}>
+                <iframe width="250px" height="30px" style={{marginTop: "5px"}} scrolling="no" src={`https://www.download-mp3-youtube.com/api/?api_key=MzE4ODAxNDcz&format=mp3&video_id=${modifiedUrl}`}>dow</iframe>
+                </div>
+                <div onClick={handleDownload} className="btn btn-success" style={{display: "flex", flexDirection: "column"}}><span className="glyphicon glyphicon-download">MP4</span></div>
+                <div style={{marginLeft: "15px"}}onClick={handleRemove}><span className="glyphicon glyphicon-remove"></span></div>
             </div>
+        </div>
+            
            
         </div>
     );
