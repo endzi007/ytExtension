@@ -11,9 +11,11 @@ export const checkVideo = (store)=>(next)=>(action)=>{
                     action.payload=found;
                 } else {
                     action.type="ADD_VIDEO";
+                    store.dispatch({type: "FETCH_MP4_LINKS", payload: action.payload});
                 }
             } else {
                 action.type = "ADD_VIDEO";
+                store.dispatch({type: "FETCH_MP4_LINKS", payload: action.payload});
             }
             break;
         default: 
@@ -21,3 +23,5 @@ export const checkVideo = (store)=>(next)=>(action)=>{
     }
     next(action);
 }
+
+
