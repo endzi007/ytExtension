@@ -3,11 +3,15 @@ import rootReducer from './reducers';
 import { wrapStore, alias } from 'react-chrome-redux';
 import logger from 'redux-logger';
 import { checkVideo } from './middlewares/video';
+import { appConfig } from './middlewares/appConfig';
 import ReduxThunk from 'redux-thunk';
 import aliases from './aliases';
 
 const defaultState = {
-    selectionMode: "neutral",
+    appConfig: {
+        selectionMode: "neutral",
+        downloadMode: "mp3"
+    },
     videos: []
 }
 
@@ -17,7 +21,7 @@ const defaultState = {
     });
 });
  */
-const store = createStore(rootReducer, defaultState, applyMiddleware(alias(aliases), ReduxThunk, checkVideo, logger));
+const store = createStore(rootReducer, defaultState, applyMiddleware(alias(aliases), ReduxThunk, checkVideo, appConfig, logger));
 
 wrapStore(store, {
     portName: "YTEC"

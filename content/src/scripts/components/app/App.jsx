@@ -32,8 +32,11 @@ class App extends Component {
             let url = video.getElementsByTagName("a")[0].getAttribute("href");
             let thumbnailSrc = video.getElementsByTagName("img")[0].getAttribute("src");
             let title = video.querySelector("#video-title").getAttribute("title");
-            let videoToAdd = {title: title, thumbnail: thumbnailSrc, url: url, links: []};
-            if(this.props.selectionMode==="on"){
+            let videoToAdd = {title: title, thumbnail: thumbnailSrc, url: url, links: {
+              mp3Link: `https://www.download-mp3-youtube.com/api/?api_key=MzE4ODAxNDcz&format=mp3&video_id=${url.substr(9, url.length)}`,
+              mp4Link: ""
+            }};
+            if(this.props.appConfig.selectionMode==="on"){
               e.preventDefault();
               e.stopPropagation();
               let found = this.props.videos.findIndex((vidUrl)=>{
@@ -122,7 +125,7 @@ class App extends Component {
 }
 function mapStateToProps(store){
     return {
-      selectionMode: store.selectionMode,
+      appConfig: store.appConfig,
       videos: store.videos
     }
 }

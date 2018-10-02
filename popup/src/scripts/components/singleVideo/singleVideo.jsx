@@ -1,9 +1,8 @@
 import React from 'react';
-import FileSaver from 'file-saver';
 import Mp4Links from './mp4Links';
 
 const SingleVideo = (props)=>{
-    const { video, actionDispatch } = props;
+    const { video, actionDispatch, appConfig } = props;
     console.log(props);
     const handleRemove = ()=>{
         actionDispatch("ADD_REMOVE_VIDEO", video);
@@ -12,31 +11,27 @@ const SingleVideo = (props)=>{
         })
     }
     const modifiedUrl = video.url.substr(9, video.url.length);
-    
+    const displayLinks = appConfig.downloadMode === "mp3"?
+    <iframe width="250px" height="30px" style={{marginTop: "5px"}} scrolling="no" src={video.links.mp3Link}></iframe>:
+    <Mp4Links url={modifiedUrl}/>;
     return (
         <div style={{
-            display: "flex",
-            width: "100%",
-            padding: "5px",
-            flexDirection: "column"
-        }}>
-        <h5>{video.title}</h5>
-        <div style={{
             display: "grid",
-            gridTemplateColumns: "2fr 3fr"
+            gridTemplateColumns: "1fr 3fr",
+            padding: "5px"
         }}>
-            <img style={{maxWidth: "100px"}}src={video.thumbnail} alt={video.title}/>
-            <div style={{display: "flex", alignItems: "center", padding: "5px"}}>
+            <img src={video.thumbnail} alt={video.title}/>
+           <div style={{display: "flex", flexDirection: "column"}}>
+            <h5>{video.title}</h5>
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px"}}>
                 <div style={{maxWidth: "100%"}}>
-                <iframe width="250px" height="30px" style={{marginTop: "5px"}} scrolling="no" src={`https://www.download-mp3-youtube.com/api/?api_key=MzE4ODAxNDcz&format=mp3&video_id=${modifiedUrl}`}>dow</iframe>
+                {displayLinks}
                 </div>
-                <Mp4Links url={modifiedUrl}/>
                 <div style={{marginLeft: "15px"}}onClick={handleRemove}><span className="glyphicon glyphicon-remove"></span></div>
             </div>
+           </div>
         </div>
             
-           
-        </div>
     );
 };
 

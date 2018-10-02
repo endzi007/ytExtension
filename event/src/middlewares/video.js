@@ -19,6 +19,5 @@ export const checkVideo = (store)=>(next)=>(action)=>{
         default: 
         break;
     }
-    console.log("modified action", action);
     next(action);
 }

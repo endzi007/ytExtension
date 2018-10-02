@@ -1,5 +1,3 @@
 .selectedVideo {
-    border: 1px solid green;
-    border-radius: 2px;
-    box-sizing: border-box;
+    background-color: rgba(0, 255, 0, 0.2);
 }

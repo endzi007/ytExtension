@@ -6,25 +6,38 @@ class App extends Component {
   constructor(props) {
     super(props);
   }
-  handleChange(value){
-      this.props.dispatch({type: "SELECT_MODE", payload: value})
+  handleChange(value, meta){
+    //meta is used in middleware to split action for select mode, or download mode...
+      this.props.dispatch({type: "APP_CONFIG", payload: {payload: value, meta:meta}})
   }
   handleDispatch(type, payload){
     this.props.dispatch({type: type, payload: payload})
   }
   render() {
+    const { selectionMode, downloadMode } = this.props.appConfig;
     return (
       <div style={{ 
         minWidth: "400px",
         minHeight: "200px",
         padding: "10px"
         }} className="container">
-        <div className="selectionMode">
-        Enter selection mode: <br />
-        <button onClick={this.handleChange.bind(this, "on")} className={`btn ${this.props.selectionMode==="on"? "btn-success": "btn-default"}`}>On</button>
-        <button onClick={this.handleChange.bind(this, "off")} className={`btn ${this.props.selectionMode!=="on"? "btn-success": "btn-default"}`}>Off</button>
+        <div className="selectionMode" style={{
+          display: "flex",
+          fontSize: "0.8em",
+          justifyContent: "space-between"
+        }}>
+        <div>
+          Enter selection mode: <br />
+          <button onClick={this.handleChange.bind(this, "on", "SELECT_MODE")} className={`btn btn-small ${selectionMode==="on"? "btn-success": "btn-default"}`}>On</button>
+          <button onClick={this.handleChange.bind(this, "off", "SELECT_MODE")} className={`btn btn-small ${selectionMode!=="on"? "btn-success": "btn-default"}`}>Off</button>
         </div>
-        <Playlist dispatchAction={this.handleDispatch.bind(this)} videos={this.props.videos}/>
+        <div>    
+          Choose download mode: <br />
+          <button onClick={this.handleChange.bind(this, "mp3", "DOWNLOAD_MODE")} className={`btn btn-small ${downloadMode==="mp3"? "btn-success": "btn-default"}`}>MP3</button>
+          <button onClick={this.handleChange.bind(this, "mp4", "DOWNLOAD_MODE")} className={`btn btn-small ${downloadMode!=="mp3"? "btn-success": "btn-default"}`}>MP4</button>
+        </div>
+        </div>
+        <Playlist appConfig = {this.props.appConfig} dispatchAction={this.handleDispatch.bind(this)} videos={this.props.videos}/>
       </div>
     );
   }
@@ -32,7 +45,7 @@ class App extends Component {
 
 function mapStateToProps(store){
   return {
-    selectionMode: store.selectionMode,
+    appConfig: store.appConfig,
     videos: store.videos
   }
 }

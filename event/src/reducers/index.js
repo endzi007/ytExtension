@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import selectionMode from './selectionMode';
+import appConfig from './appConfig';
 import videos from './videos';
 
 export default combineReducers({
   videos,
-  selectionMode
+  appConfig
 });
