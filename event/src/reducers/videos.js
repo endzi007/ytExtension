@@ -9,6 +9,9 @@ export default (state = initialState, action) => {
     case 'REMOVE_VIDEO':
       newState.splice(action.payload, 1);
       break;
+    case 'FETCH_MP4_LINKS_OK':{
+      break;
+    }
     default:
       break;
   } 
