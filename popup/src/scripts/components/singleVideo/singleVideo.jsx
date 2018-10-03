@@ -3,7 +3,6 @@ import Mp4Links from './mp4Links';
 
 const SingleVideo = (props)=>{
     const { video, actionDispatch, appConfig } = props;
-    console.log(props);
     const handleRemove = ()=>{
         actionDispatch("ADD_REMOVE_VIDEO", video);
         chrome.tabs.query({currentWindow: true, active: true}, (tabs)=>{
@@ -12,17 +11,18 @@ const SingleVideo = (props)=>{
     }
     const modifiedUrl = video.url.substr(9, video.url.length);
     const displayLinks = appConfig.downloadMode === "mp3"?
-    <iframe width="250px" height="30px" style={{marginTop: "5px"}} scrolling="no" src={video.links.mp3Link}></iframe>:
-    <Mp4Links url={modifiedUrl}/>;
+    <iframe width="80%" height="30px" style={{marginTop: "5px"}} scrolling="no" src={video.links.mp3Link}></iframe>:
+    <Mp4Links url={video.links.mp4Link}/>;
+    let modifiedTitle = video.title.length > 58 ? `${video.title.substr(0, 55)}...`: video.title; 
     return (
         <div style={{
             display: "grid",
-            gridTemplateColumns: "1fr 3fr",
+            gridTemplateColumns: "37% 63%",
             padding: "5px"
         }}>
-            <img src={video.thumbnail} alt={video.title}/>
+            <img style={{maxWidth: "100%"}} src={video.thumbnail} alt={video.title}/>
            <div style={{display: "flex", flexDirection: "column"}}>
-            <h5>{video.title}</h5>
+            <h5 style={{margin: 0, padding: 0}}>{modifiedTitle}</h5>
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px"}}>
                 <div style={{maxWidth: "100%"}}>
                 {displayLinks}

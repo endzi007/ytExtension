@@ -10,6 +10,7 @@ export default (state = initialState, action) => {
       newState.splice(action.payload, 1);
       break;
     case 'FETCH_MP4_LINKS_OK':{
+      newState[action.payload.index].links.mp4Link = action.payload.finalUrl;
       break;
     }
     default:
