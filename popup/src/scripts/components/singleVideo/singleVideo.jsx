@@ -1,5 +1,7 @@
 import React from 'react';
 import Mp4Links from './mp4Links';
+import getVideoInfo from '../getVideoInfo';
+
 
 const SingleVideo = (props)=>{
     const { video, actionDispatch, appConfig } = props;
@@ -13,7 +15,14 @@ const SingleVideo = (props)=>{
     const displayLinks = appConfig.downloadMode === "mp3"?
     <iframe width="80%" height="30px" style={{marginTop: "5px"}} scrolling="no" src={video.links.mp3Link}></iframe>:
     <Mp4Links url={video.links.mp4Link}/>;
-    let modifiedTitle = video.title.length > 58 ? `${video.title.substr(0, 55)}...`: video.title; 
+    let modifiedTitle = video.title.length > 58 ? `${video.title.substr(0, 55)}...`: video.title;
+    
+    getVideoInfo(modifiedUrl, (dd, res)=>{
+        let audioStreams = res["adaptive_fmts"].split("url=");
+        for (let stream of audioStreams){
+            console.log(decodeURIComponent(stream));
+        }
+    })
     return (
         <div style={{
             display: "grid",
@@ -39,3 +48,6 @@ export default SingleVideo;
 
 /*  <a href={`https://baixaryoutube.net/@api/json/mp3/${modifiedUrl}`}>Download mp3</a>
             <a href={`https://youtubetoany.com/@api/json/mp3/${modifiedUrl}`} download="DOWNLOAD_FILE_NAME.mp4">Download dido</a> */
+
+
+

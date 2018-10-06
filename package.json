@@ -10,8 +10,7 @@
   "dependencies": {
     "@material-ui/core": "^3.0.2",
     "css-loader": "^1.0.0",
-    "downloadjs": "^1.4.7",
-    "file-saver": "^2.0.0-rc.3",
+    "json-loader": "^0.5.7",
     "react": "^15.5.0",
     "react-bootstrap": "^0.32.4",
     "react-chrome-redux": "^1.5.0",
@@ -20,6 +19,7 @@
     "redux": "^3.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.0",
     "style-loader": "^0.23.0",
     "trace-redirect": "^1.0.6"
   },
