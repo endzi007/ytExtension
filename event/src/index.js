@@ -23,6 +23,15 @@ const defaultState = {
  */
 const store = createStore(rootReducer, defaultState, applyMiddleware(alias(aliases), ReduxThunk, checkVideo, appConfig, logger));
 
+
+store.subscribe(()=>{
+    if(store.getState().appConfig.selectionMode === "on"){
+        chrome.browserAction.setBadgeText({text: store.getState().videos.length.toString()});
+    } else {
+        chrome.browserAction.setBadgeText({text: ""});
+    }
+});
+
 wrapStore(store, {
     portName: "YTEC"
 })

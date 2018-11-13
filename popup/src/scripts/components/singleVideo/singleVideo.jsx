@@ -2,7 +2,7 @@ import React from 'react';
 import Mp4Links from './mp4Links';
 
 const SingleVideo = (props)=>{
-    const { video, actionDispatch, appConfig } = props;
+    const { video, actionDispatch, appConfig, index} = props;
     const handleRemove = ()=>{
         actionDispatch("ADD_REMOVE_VIDEO", video);
         chrome.tabs.query({currentWindow: true, active: true}, (tabs)=>{
@@ -17,12 +17,20 @@ const SingleVideo = (props)=>{
     return (
         <div style={{
             display: "grid",
-            gridTemplateColumns: "37% 63%",
+            gridTemplateColumns: "5% 33% 62%",
             padding: "5px"
         }}>
-            <img style={{maxWidth: "100%"}} src={video.thumbnail} alt={video.title}/>
+            <div style={{ height: "100%", verticalAlign: "middle" }}>{index+1}</div>
+           <img style={{maxWidth: "100%"}} src={video.thumbnail} alt={video.title}/>
            <div style={{display: "flex", flexDirection: "column"}}>
-            <h5 style={{margin: 0, padding: 0}}>{modifiedTitle}</h5>
+            <h5 onClick={()=>{
+                    navigator.clipboard.writeText(`https://www.youtube.com${video.url}`).then((str)=>{
+                        console.log(str)
+                    });
+                }}
+                style={{margin: 0, padding: 0}}
+            >{modifiedTitle}</h5>
+
             <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", padding: "5px"}}>
                 <div style={{maxWidth: "100%"}}>
                 {displayLinks}
@@ -36,6 +44,3 @@ const SingleVideo = (props)=>{
 };
 
 export default SingleVideo;
-
-/*  <a href={`https://baixaryoutube.net/@api/json/mp3/${modifiedUrl}`}>Download mp3</a>
-            <a href={`https://youtubetoany.com/@api/json/mp3/${modifiedUrl}`} download="DOWNLOAD_FILE_NAME.mp4">Download dido</a> */
